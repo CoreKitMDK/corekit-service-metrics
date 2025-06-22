@@ -41,7 +41,7 @@ spec:
     matchLabels:
       app: internal-metrics-broker-nats
   serviceName: "internal-metrics-broker-nats"
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:

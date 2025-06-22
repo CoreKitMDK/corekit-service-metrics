@@ -3,8 +3,9 @@ package metrics
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/nats-io/nats.go"
 	"time"
+
+	"github.com/nats-io/nats.go"
 )
 
 // NATS Logging.NATS implements the ILogger interface
@@ -41,8 +42,8 @@ func WithCredentials(username, password string) NATSOption {
 
 func NewMetricsNATS(url string, options ...NATSOption) (*NATS, error) {
 	logger := &NATS{
-		subject:  "metrics",                 // Default subject
-		clientID: "internal-metrics-broker", // Default client ID
+		subject:  "metrics",
+		clientID: "internal-metrics-broker",
 	}
 
 	for _, opt := range options {
@@ -66,8 +67,8 @@ func NewMetricsNATS(url string, options ...NATSOption) (*NATS, error) {
 
 func NewMetricsNATSWithAuth(url string, username, password string, options ...NATSOption) (*NATS, error) {
 	logger := &NATS{
-		subject:  "logs",        // Default subject
-		clientID: "nats-logger", // Default client ID
+		subject:  "metrics",
+		clientID: "internal-metrics-broker",
 	}
 
 	for _, opt := range options {
@@ -98,7 +99,17 @@ func (n *NATS) Log(mm Metric) error {
 		return err
 	}
 
-	return n.conn.Publish(n.subject, jsonBytes)
+	err = n.conn.Publish(n.subject, jsonBytes)
+	if err != nil {
+		return err
+	}
+
+	err = n.conn.Flush()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (n *NATS) Close() {

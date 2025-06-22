@@ -1,9 +1,10 @@
 package tests
 
 import (
-	"github.com/CoreKitMDK/corekit-service-metrics/v2/pkg/metrics"
 	"testing"
 	"time"
+
+	"github.com/CoreKitMDK/corekit-service-metrics/v2/pkg/metrics"
 )
 
 func TestMetricsConfiguration(t *testing.T) {
@@ -13,7 +14,7 @@ func TestMetricsConfiguration(t *testing.T) {
 	config.UseConsole = true
 
 	config.UseNATS = true
-	config.NatsURL = "nats://localhost:4221"
+	config.NatsURL = "internal-metrics-broker-nats-client"
 
 	config.NatsPassword = "internal-metrics-broker"
 	config.NatsUsername = "internal-metrics-broker"
@@ -25,5 +26,5 @@ func TestMetricsConfiguration(t *testing.T) {
 	_ = ogger.Log(metrics.NewMetric("test", 2))
 	_ = ogger.Log(metrics.NewMetric("test", 3))
 
-	time.Sleep(4 * time.Second)
+	time.Sleep(2 * time.Second)
 }
