@@ -25,7 +25,7 @@ func NewMetric(key string, data interface{}) Metric {
 }
 
 type IMultiMetrics interface {
-	Log(mm Metric) error
+	Log(key string, data interface{}) error
 	Stop()
 }
 
@@ -42,8 +42,9 @@ type MultiMetrics struct {
 	stopped   bool
 }
 
-func (l *MultiMetrics) Log(mm Metric) error {
-	l.log(mm)
+func (l *MultiMetrics) Log(key string, data interface{}) error {
+	m := NewMetric(key, data)
+	l.log(m)
 	return nil
 }
 

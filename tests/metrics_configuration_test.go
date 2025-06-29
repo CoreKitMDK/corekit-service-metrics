@@ -22,9 +22,9 @@ func TestMetricsConfiguration(t *testing.T) {
 	ogger := config.Init()
 	defer ogger.Stop()
 
-	_ = ogger.Log(metrics.NewMetric("test", 1))
-	_ = ogger.Log(metrics.NewMetric("test", 2))
-	_ = ogger.Log(metrics.NewMetric("test", 3))
+	_ = ogger.Log("test", 1)
+	_ = ogger.Log("test", 2)
+	_ = ogger.Log("test", 3)
 
 	time.Sleep(2 * time.Second)
 }
