@@ -89,7 +89,7 @@ func NewMetricsNATSWithAuth(url string, username, password string, options ...NA
 	return logger, nil
 }
 
-func (n *NATS) Log(mm Metric) error {
+func (n *NATS) Record(mm Metric) error {
 	if n.conn == nil || n.conn.IsClosed() {
 		return fmt.Errorf("NATS connection is closed or not initialized")
 	}

@@ -17,7 +17,7 @@ func TestMetric(t *testing.T) {
 	nm := metrics.NewMetricsConsole()
 
 	m := metrics.NewMetrics(10, mnats, nm)
-	_ = m.Log("test", 123)
+	_ = m.Record("test", 123)
 
 	time.Sleep(4 * time.Second)
 

@@ -25,12 +25,12 @@ func NewMetric(key string, data interface{}) Metric {
 }
 
 type IMultiMetrics interface {
-	Log(key string, data interface{}) error
+	Record(key string, data interface{}) error
 	Stop()
 }
 
 type IMetrics interface {
-	Log(mm Metric) error
+	Record(mm Metric) error
 }
 
 type MultiMetrics struct {
@@ -42,7 +42,7 @@ type MultiMetrics struct {
 	stopped   bool
 }
 
-func (l *MultiMetrics) Log(key string, data interface{}) error {
+func (l *MultiMetrics) Record(key string, data interface{}) error {
 	m := NewMetric(key, data)
 	l.log(m)
 	return nil
@@ -84,7 +84,7 @@ func (l *MultiMetrics) processMetric(metric Metric) {
 
 		metric.Tags = l.tags
 
-		if err := logger.Log(metric); err != nil {
+		if err := logger.Record(metric); err != nil {
 			fallbackErrorLog(fmt.Sprintln("Error logging metric: ", err))
 		} else {
 			didLog = true
